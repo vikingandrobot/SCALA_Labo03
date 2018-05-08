@@ -28,7 +28,7 @@ object Anagrams extends App {
    *  that you can load to use with your program  
    */
 
-  // Todo demander pourquoi dictionnary = null 
+  // Todo demander pourquoi dictionnary = null
   //val dictionary: List[Word] =
   var dictionary: List[Word] =
     List("ate", "eat", "tea", "pot", "top", "sonja", "jason", "normal",
@@ -65,7 +65,10 @@ object Anagrams extends App {
 
 
   /** Returns all the anagrams of a given word. */
-  def wordAnagrams(word: Word): List[Word] = ???
+  def wordAnagrams(word: Word): List[Word] = {
+    // todo toujours voir pour cette histoire de dico
+    (for((fp, words) <- anagramDico(); if fp == fingerPrint(word); w <- words ) yield w).toList
+  }
 
   // Test code with for example:
   // println(wordAnagrams("eta"))

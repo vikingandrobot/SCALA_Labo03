@@ -10,8 +10,10 @@ object Main {
     //println(Anagrams.fingerPrint("Bonjour"))
     //println(Anagrams.fingerPrint(List("Bonjour","a","tous")))
     println("------------ Test afficher les combinaison du dico (fingerPrint, List[words]---------------")
-    val dicoFingerPrint = Anagrams.anagramDico()
-    for((fingerPrint,words) <- dicoFingerPrint; word <- words) println(fingerPrint,word)
+    //val dicoFingerPrint = Anagrams.anagramDico()
+    //for((fingerPrint,words) <- dicoFingerPrint; word <- words) println(fingerPrint,word)
 
+    println(Anagrams.wordAnagrams("eat"))
   }
+
 }
