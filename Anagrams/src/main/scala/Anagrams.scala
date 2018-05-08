@@ -1,4 +1,5 @@
 import scala.collection.immutable._
+import scala.io.Source
 
 
 object Anagrams extends App {
@@ -27,7 +28,9 @@ object Anagrams extends App {
    *  that you can load to use with your program  
    */
 
-  val dictionary: List[Word] =    
+  // Todo demander pourquoi dictionnary = null 
+  //val dictionary: List[Word] =
+  var dictionary: List[Word] =
     List("ate", "eat", "tea", "pot", "top", "sonja", "jason", "normal",
          "I", "love", "you", "olive")
 
@@ -37,8 +40,13 @@ object Anagrams extends App {
    *  number of occurrences, but the characters appear in sorted order.
    */
 
-  def fingerPrint(s: Word): FingerPrint = ???
-  def fingerPrint(s: Sentence): FingerPrint = ??? 
+  def fingerPrint(s: Word): FingerPrint = {
+    s.toLowerCase.sorted
+  }
+  // Todo faut il ajouter les empruntes e1,e2,e3 ou trier abcd... à nouveau une fois qu'on a récup les empruntes
+  def fingerPrint(s: Sentence): FingerPrint = {
+    (for(word <- s) yield fingerPrint(word)).foldLeft("")((acc,x)=> acc + x)
+  }
 
 
   /** `matchingWords` is a `Map` from fingerprints to a sequence of all
@@ -123,4 +131,11 @@ object Anagrams extends App {
   // println(sentenceAnagrams(List("you", "olive")))
   // println(sentenceAnagrams(List("I", "love", "you")))
 
+  /*
+    Fonction pour créer la map sur le dico
+   */
+  def anagramDico():Map[FingerPrint,List[Word]]={
+   dictionary groupBy fingerPrint
+  }
 }
+
