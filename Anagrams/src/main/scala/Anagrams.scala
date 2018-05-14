@@ -27,14 +27,9 @@ object Anagrams extends App {
     * A dictionary of English words is given to you as an external file (linuxwords.txt)
     * that you can load to use with your program
     */
-  val path = "D:\\HEIG\\COURS\\Annee_3\\2_sem\\SCALA\\Labo\\labo3\\SCALA_Labo03\\Anagrams\\src\\main\\scala\\linuxwords.txt"
-  // Todo voir si prob sur linux aussi avec getClass ====> getClass.getResource("linuxwords.txt")
-  val dictionary: List[Word] = scala.io.Source.fromFile(path).getLines.toList
-
-  /* Dico d'exemple
-  List("ate", "eat", "tea", "pot", "top", "sonja", "jason", "normal",
-       "I", "love", "you", "olive")*/
-
+  val path = "linuxwords.txt"
+  val dictionary: List[Word] = Source.fromResource(path).getLines.toList
+  
 
   /** Converts a word/sentence into its fingerprint.
     * The fingerprint has the same characters as the word, with the same
