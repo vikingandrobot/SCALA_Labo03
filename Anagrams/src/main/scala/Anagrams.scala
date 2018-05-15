@@ -1,5 +1,6 @@
 import scala.collection.immutable._
 import scala.io.Source
+import java.util.regex.Pattern
 
 
 object Anagrams extends App {
@@ -84,11 +85,21 @@ object Anagrams extends App {
     * in the example above could have been displayed in some other order.
     */
 
-  def subseqs(fp: FingerPrint): List[FingerPrint] = ???
-  // Todo
+  def subseqs(fp: FingerPrint): List[FingerPrint] = {
+    fp match {
+      case s if s.isEmpty => List[String]("")
+      case s => {
+        val char = fp.charAt(0)
+        val list = subseqs(fp.substring(1))
+        val n : List[FingerPrint] = for (s <- list) yield char + s
+        (list ++ n).distinct
+      }
+    }
+  }
 
   // Test code with for example:
-  // println(subseqs("aabbc"))
+  println("Testing subseqs")
+  println("Result: " + subseqs("abbc"))
 
 
   /** Subtracts fingerprint `y` from fingerprint `x`.
@@ -98,11 +109,20 @@ object Anagrams extends App {
     * appear in `x`.
     */
 
-  def subtract(x: FingerPrint, y: FingerPrint): FingerPrint = ???
-  // Todo
+  def subtract(x: FingerPrint, y: FingerPrint): FingerPrint = {
+    (x, y) match {
+      case (x, y) if y.isEmpty => x
+      case (x, y) if subseqs(x) contains y => {
+        val filtered = x.replaceFirst(Pattern.quote("" + y.charAt(0)), "")
+        subtract(filtered, y.substring(1))
+      }
+      case _ => x
+    }
+  }
 
   // Test code with for example:
-  // println(subtract("aabbcc", "abc"))
+  println("Testing subtract: ")
+  println(subtract("aabbcc", "abc"))
 
 
   /** Returns a list of all anagram sentences of the given sentence.
@@ -124,11 +144,24 @@ object Anagrams extends App {
     * Note: There is only one anagram of an empty sentence.
     */
 
-  def sentenceAnagrams(sentence: Sentence): List[Sentence] = ???
+  def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
+    def f (sentenceFingerprint: FingerPrint): List[Sentence] = {
+      if (sentenceFingerprint.isEmpty) List(List(""))
+      for (
+        s <- subseqs(sentenceFingerprint);
+        a <- matchingWords.getOrElse(s, Nil);
+        sa <- f(subtract(sentenceFingerprint, s))
+      ) yield (a :: sa)
+    }
+
+    val sentenceFingerprint = fingerPrint(sentence)
+    f(sentenceFingerprint)
+  }
   // Todo
 
   // Test code with for example:
-  // println(sentenceAnagrams(List("eat", "tea")))
+  println("Testing anagrams")
+  println(sentenceAnagrams(List("eat", "tea")))
   // println(sentenceAnagrams(List("you", "olive")))
   // println(sentenceAnagrams(List("I", "love", "you")))
 
