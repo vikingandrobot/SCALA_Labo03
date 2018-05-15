@@ -150,7 +150,7 @@ object Anagrams extends App {
       else {
         for (
           s <- subseqs(sentenceFingerprint); // For each subsequence
-          a <- matchingWords.getOrElse(s, Nil); // Get all anagrams for that subsequence
+          a <- wordAnagrams(s); // Get all anagrams for that subsequence
           sa <- f(subtract(sentenceFingerprint, s)) // Retrieve all possible remaining sentences
         ) yield (a :: sa) // Yield a new sentence  for each remaing sentences
       }
