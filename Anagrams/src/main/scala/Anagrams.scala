@@ -109,16 +109,15 @@ object Anagrams extends App {
     * appear in `x`.
     */
 
-  def subtract(x: FingerPrint, y: FingerPrint): FingerPrint = {
-    (x, y) match {
-      case (x, y) if y.isEmpty => x
-      case (x, y) if subseqs(x) contains y => {
-        val filtered = x.replaceFirst(Pattern.quote(y.charAt(0).toString), "")
-        subtract(filtered, y.substring(1))
-      }
-      case _ => x
+  def subtract(x: FingerPrint, y: FingerPrint): FingerPrint = (x, y) match {
+    case (x, y) if y.isEmpty => x
+    case (x, y) if subseqs(x) contains y => {
+      val filtered = x.replaceFirst(Pattern.quote(y.charAt(0).toString), "")
+      subtract(filtered, y.substring(1))
     }
+    case _ => x
   }
+
 
   // Test code with for example:
   println("Testing subtract: ")
