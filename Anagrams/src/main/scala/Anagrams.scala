@@ -96,10 +96,13 @@ object Anagrams extends App {
     fp match {
       case s if s.isEmpty => List[String]("")
       case _ => {
+        // Retrieve the first character and compute subsequences without this character
         val char = fp.charAt(0)
-        val list = subseqs(fp.substring(1))
-        val n : List[FingerPrint] = for (s <- list) yield char + s
-        (list ++ n).distinct
+        val subsequences = subseqs(fp.substring(1))
+        // Add the first character in front of every subsequence to create new ones
+        val n : List[FingerPrint] = for (s <- subsequences) yield char + s
+        // Return a list containing all resulting subsequences
+        (subsequences ++ n).distinct
       }
     }
   }
@@ -119,7 +122,9 @@ object Anagrams extends App {
   def subtract(x: FingerPrint, y: FingerPrint): FingerPrint = (x, y) match {
     case (x, y) if y.isEmpty => x
     case (x, y) if subseqs(x) contains y => {
+      // Remove the first occurence of the first letter of y from x
       val filtered = x.replaceFirst(Pattern.quote(y.charAt(0).toString), "")
+      // Continue subtracting y from x without the first letter
       subtract(filtered, y.substring(1))
     }
     case _ => x
@@ -151,6 +156,11 @@ object Anagrams extends App {
     */
 
   def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
+    /**
+      * Recursively builds a List of Sentence that contians anagrams of the given FingerPrint
+      * @param sf the FingerPrint to use to build anagrams
+      * @return a List of Sentences made of anagrams possible from the FingerPrint
+      */
     def recursiveAnagrams (sf: FingerPrint): List[Sentence] = sf match {
       case sf if sf.isEmpty => List(List())
       case _ => {
@@ -158,7 +168,7 @@ object Anagrams extends App {
           s <- subseqs(sf); // For each subsequence
           a <- wordAnagrams(s); // Get all anagrams for that subsequence
           sa <- recursiveAnagrams(subtract(sf, s)) // Retrieve all possible remaining sentences
-        ) yield (a :: sa) // Yield a new sentence  for each remaing sentences
+        ) yield (a :: sa) // Yield a new sentence for each anagram and each remaing sentences
       }
     }
 
