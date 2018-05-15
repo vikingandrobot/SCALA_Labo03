@@ -146,24 +146,25 @@ object Anagrams extends App {
 
   def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
     def f (sentenceFingerprint: FingerPrint): List[Sentence] = {
-      if (sentenceFingerprint.isEmpty) List(List(""))
-      for (
-        s <- subseqs(sentenceFingerprint);
-        a <- matchingWords.getOrElse(s, Nil);
-        sa <- f(subtract(sentenceFingerprint, s))
-      ) yield (a :: sa)
+      if (sentenceFingerprint.isEmpty) List(List())
+      else {
+        for (
+          s <- subseqs(sentenceFingerprint); // For each subsequence
+          a <- matchingWords.getOrElse(s, Nil); // Get all anagrams for that subsequence
+          sa <- f(subtract(sentenceFingerprint, s)) // Retrieve all possible remaining sentences
+        ) yield (a :: sa) // Yield a new sentence  for each remaing sentences
+      }
     }
 
     val sentenceFingerprint = fingerPrint(sentence)
-    f(sentenceFingerprint)
+    f(sentenceFingerprint).distinct
   }
-  // Todo
 
   // Test code with for example:
   println("Testing anagrams")
   println(sentenceAnagrams(List("eat", "tea")))
-  // println(sentenceAnagrams(List("you", "olive")))
-  // println(sentenceAnagrams(List("I", "love", "you")))
+  println(sentenceAnagrams(List("you", "olive")))
+  println(sentenceAnagrams(List("I", "love", "you")))
 
 
   // ------------ TEST DU CODE
