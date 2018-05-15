@@ -2,7 +2,9 @@ import scala.collection.immutable._
 import scala.io.Source
 import java.util.regex.Pattern
 
-
+/*
+  Groupe : Mathieu Monteverde, Sathiya Kirushnapillai & Michela Zucca
+ */
 object Anagrams extends App {
 
   /** A word is simply a `String`. */
@@ -44,6 +46,10 @@ object Anagrams extends App {
     fingerPrint(s.mkString)
   }
 
+   println("**** fingerPrint")
+   println("Anagrams.fingerPrint(\"eat\"): "+ Anagrams.fingerPrint("eat"))
+   println("Anagrams.fingerPrint(List(\"I\",\"Love\",\"You\"))"+ Anagrams.fingerPrint(List("I","Love","You"))+"\n")
+
 
   /** `matchingWords` is a `Map` from fingerprints to a sequence of all
     * the words that have that fingerprint.
@@ -68,11 +74,12 @@ object Anagrams extends App {
   }
 
   // Test code with for example:
-  // println(wordAnagrams("eta"))
-  // println(wordAnagrams("jbdikb"))
+   println("**** Test wordAnagrams")
+   println("wordAnagrams(\"eta\"): " + wordAnagrams("eta"))
+   println("wordAnagrams(\"jbdikb\"): " + wordAnagrams("jbdikb")+"\n")
 
 
-  /** Returns the list of all subsequences of a fingerprint.
+  /** Returns the list of all subsequences of a fingerprnt.
     * This includes the fingerprint itself, i.e.
     * "ko" is a subsequence of "kkoo". It also always includes
     * the empty string "".
@@ -98,8 +105,8 @@ object Anagrams extends App {
   }
 
   // Test code with for example:
-  println("Testing subseqs")
-  println("Result: " + subseqs("abbc"))
+  println("**** Testing subseqs")
+  println("subseqs(\"abbc\"): " + subseqs("abbc")+"\n")
 
 
   /** Subtracts fingerprint `y` from fingerprint `x`.
@@ -120,8 +127,8 @@ object Anagrams extends App {
 
 
   // Test code with for example:
-  println("Testing subtract: ")
-  println(subtract("aabbcc", "abc"))
+  println("**** Testing subtract: ")
+  println("subtract(\"aabbcc\", \"abc\"): "+ subtract("aabbcc", "abc")+"\n")
 
 
   /** Returns a list of all anagram sentences of the given sentence.
@@ -160,20 +167,10 @@ object Anagrams extends App {
   }
 
   // Test code with for example:
-  println("Testing anagrams")
-  println(sentenceAnagrams(List("eat", "tea")))
-  println(sentenceAnagrams(List("you", "olive")))
-  println(sentenceAnagrams(List("I", "love", "you")))
+  println("**** Testing anagrams")
+  println("sentenceAnagrams(List(\"eat\", \"tea\")): "+sentenceAnagrams(List("eat", "tea")))
+  println("sentenceAnagrams(List(\"you\", \"olive\")): " + sentenceAnagrams(List("you", "olive")))
+  println("sentenceAnagrams( List(\"I\", \"love\", \"you\"))" + sentenceAnagrams( List("I", "love", "you"))+"\n")
 
-
-  // ------------ TEST DU CODE
-  // Test de fingerPrint(word)
-  println(Anagrams.fingerPrint("eat"))
-  // Test de wordAnagrams
-  println(Anagrams.wordAnagrams("eat"))
-  // Test de fingerprint(sentence)
-  println(Anagrams.fingerPrint(List("eat","ate","tea")))
-  // Test map du dico
-  // for ((fingerPrint, words) <- matchingWords; word <- words) println(fingerPrint, word)
 }
 
