@@ -88,7 +88,7 @@ object Anagrams extends App {
   def subseqs(fp: FingerPrint): List[FingerPrint] = {
     fp match {
       case s if s.isEmpty => List[String]("")
-      case s => {
+      case _ => {
         val char = fp.charAt(0)
         val list = subseqs(fp.substring(1))
         val n : List[FingerPrint] = for (s <- list) yield char + s
@@ -113,7 +113,7 @@ object Anagrams extends App {
     (x, y) match {
       case (x, y) if y.isEmpty => x
       case (x, y) if subseqs(x) contains y => {
-        val filtered = x.replaceFirst(Pattern.quote("" + y.charAt(0)), "")
+        val filtered = x.replaceFirst(Pattern.quote(y.charAt(0).toString), "")
         subtract(filtered, y.substring(1))
       }
       case _ => x
@@ -145,19 +145,19 @@ object Anagrams extends App {
     */
 
   def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
-    def f (sentenceFingerprint: FingerPrint): List[Sentence] = {
-      if (sentenceFingerprint.isEmpty) List(List())
-      else {
+    def recursiveAnagrams (sf: FingerPrint): List[Sentence] = sf match {
+      case sf if sf.isEmpty => List(List())
+      case _ => {
         for (
-          s <- subseqs(sentenceFingerprint); // For each subsequence
+          s <- subseqs(sf); // For each subsequence
           a <- wordAnagrams(s); // Get all anagrams for that subsequence
-          sa <- f(subtract(sentenceFingerprint, s)) // Retrieve all possible remaining sentences
+          sa <- recursiveAnagrams(subtract(sf, s)) // Retrieve all possible remaining sentences
         ) yield (a :: sa) // Yield a new sentence  for each remaing sentences
       }
     }
 
     val sentenceFingerprint = fingerPrint(sentence)
-    f(sentenceFingerprint).distinct
+    recursiveAnagrams(sentenceFingerprint).distinct
   }
 
   // Test code with for example:
