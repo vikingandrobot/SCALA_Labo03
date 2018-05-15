@@ -170,7 +170,9 @@ object Anagrams extends App {
   println("**** Testing anagrams")
   println("sentenceAnagrams(List(\"eat\", \"tea\")): "+sentenceAnagrams(List("eat", "tea")))
   println("sentenceAnagrams(List(\"you\", \"olive\")): " + sentenceAnagrams(List("you", "olive")))
-  println("sentenceAnagrams( List(\"I\", \"love\", \"you\"))" + sentenceAnagrams( List("I", "love", "you"))+"\n")
+  println("sentenceAnagrams(List(\"I\", \"love\", \"you\")): " + sentenceAnagrams(List("I", "love", "you"))+"\n")
+  println("sentenceAnagrams(List()): " + sentenceAnagrams(List()))
+  println("sentenceAnagrams(List(\"\")): " + sentenceAnagrams(List("")))
 
 }
 
